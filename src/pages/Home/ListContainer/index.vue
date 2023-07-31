@@ -112,8 +112,24 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
+    name: '',
+    data(){
+        return{
 
+        }
+    },
+    computed: {
+        ...mapState({
+           bannerList: (state)=>{
+              return state.home.bannerList
+           }
+        })
+    },
+    mounted(){
+        this.$store.dispatch('getBannerList')
+    }
 }
 </script>
 
