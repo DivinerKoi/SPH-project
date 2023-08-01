@@ -6,10 +6,11 @@ const state = {
     bannerList: []
 }
 const mutations = {
-    //接受actions处理出来的数据
+    //接受actions处理出来的数据,获取三级联动数据
     CATEGORYLIST(state,categoryList){
         state.categoryList = categoryList
     },
+    // 获取通过mockjs模拟的数据
     GETBANNERLIST(state,bannerList){
         state.bannerList = bannerList
     }

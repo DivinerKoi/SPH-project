@@ -10,6 +10,8 @@ import TypeNav from '@/components/TypeNav'
 Vue.component(TypeNav.name,TypeNav)
 //引入Mockserver.js ===mock数据
 import '@/mock/mockServer'
+//引入swiper样式（轮播图）
+import "swiper/css/swiper.css"
 
 
 
