@@ -148,6 +148,40 @@ export default {
             })        
         }, 1000);
     },
+    watch: {
+        //通过监听bannerList属性的属性值的变化来执行回调函数
+        //存在情况：当这个函数执行只能保证bannerList数据已经有了，但是没办法保证v-for已经执行结束
+        //再结合$nextTick()解决更加好
+        bannerList: {
+            handler(newValue,oldValue){
+                this.$nextTick(() => {
+                    // new swiper 之前需要结构已经有了
+                    var mySwiper = new Swiper ('.swiper-container', {
+                        // direction: 'vertical', // 垂直切换选项
+                        loop: true, // 循环模式选项
+                        
+                        // 如果需要分页器
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable :true,
+                        },
+                        
+                        // 如果需要前进后退按钮
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        
+                        // 如果需要滚动条
+                        scrollbar: {
+                        el: '.swiper-scrollbar',
+                        },
+                    })  
+                })
+                     
+            }
+        }
+    }
 
 }
 </script>
