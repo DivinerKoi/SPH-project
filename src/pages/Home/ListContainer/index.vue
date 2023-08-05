@@ -124,29 +124,29 @@ export default {
 
         //new Swiper 实例之前，页面中结构必须得有，如果把 new Swiper 直接放到mounted上实现不了
         //是因为dispatch中涉及异步操作，导致变例结构的时候还没有完全，故通过定时器来实现（方法一）
-        setTimeout(() => {
-            var mySwiper = new Swiper ('.swiper-container', {
-                // direction: 'vertical', // 垂直切换选项
-                loop: true, // 循环模式选项
+        // setTimeout(() => {
+        //     var mySwiper = new Swiper ('.swiper-container', {
+        //         // direction: 'vertical', // 垂直切换选项
+        //         loop: true, // 循环模式选项
                 
-                // 如果需要分页器
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable :true,
-                },
+        //         // 如果需要分页器
+        //         pagination: {
+        //             el: '.swiper-pagination',
+        //             clickable :true,
+        //         },
                 
-                // 如果需要前进后退按钮
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
+        //         // 如果需要前进后退按钮
+        //         navigation: {
+        //             nextEl: '.swiper-button-next',
+        //             prevEl: '.swiper-button-prev',
+        //         },
                 
-                // 如果需要滚动条
-                scrollbar: {
-                    el: '.swiper-scrollbar',
-                },
-            })        
-        }, 1000);
+        //         // 如果需要滚动条
+        //         scrollbar: {
+        //             el: '.swiper-scrollbar',
+        //         },
+        //     })        
+        // }, 1000);
     },
     watch: {
         //通过监听bannerList属性的属性值的变化来执行回调函数
@@ -159,7 +159,7 @@ export default {
                     var mySwiper = new Swiper ('.swiper-container', {
                         // direction: 'vertical', // 垂直切换选项
                         loop: true, // 循环模式选项
-                        
+                        autoplay: true, //自动循环
                         // 如果需要分页器
                         pagination: {
                             el: '.swiper-pagination',

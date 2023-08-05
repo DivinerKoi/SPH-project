@@ -8,7 +8,7 @@ import store from '@/store'
 import TypeNav from '@/components/TypeNav'
 //注册为全局组件 (第一个参数：全局组件的名称，第二个参数：哪一个组件)
 Vue.component(TypeNav.name,TypeNav)
-//引入Mockserver.js ===mock数据
+//运行Mockserver.js ===mock数据
 import '@/mock/mockServer'
 //引入swiper样式（轮播图）
 import "swiper/css/swiper.css"

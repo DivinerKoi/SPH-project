@@ -12,3 +12,7 @@ export const reqCategoryList = () => {
 export const reqGetBannerList = () => {
     return mockRequests({url: '/banner',method: 'get'})
 }
+//获取floor组件数据
+export const reqGetFloorList = () => {
+    return mockRequests({url: '/floor',method: 'get'})
+}
