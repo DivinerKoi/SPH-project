@@ -40,7 +40,7 @@ const actions = {
     //获取mock模拟出来的floor数据
     async getFloorList(context){
         let result = await reqGetFloorList()
-        console.log(result)
+        // console.log(result)
         if(result.code == 200){
             context.commit("GETFLOORLIST",result.data)
         }

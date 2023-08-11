@@ -4,19 +4,7 @@
             <div class="sortList clearfix">
                 <div class="center">
                     <!--banner轮播-->
-                    <div class="swiper-container" id="mySwiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" v-for="(carousel,index) in bannerList" :key = carousel.id>
-                                <img :src="carousel.imgUrl" />
-                            </div>
-                        </div>
-                        <!-- 如果需要分页器 -->
-                        <div class="swiper-pagination"></div>
-
-                        <!-- 如果需要导航按钮 -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
+                    <carousel :list = bannerList></carousel>
                 </div>
                 <div class="right">
                     <div class="news">
@@ -104,7 +92,6 @@
 
 <script>
 import {mapState} from 'vuex'
-import Swiper from 'swiper'
 export default {
     name: '',
     data(){
@@ -121,67 +108,7 @@ export default {
     },
     mounted(){
         this.$store.dispatch('getBannerList')
-
-        //new Swiper 实例之前，页面中结构必须得有，如果把 new Swiper 直接放到mounted上实现不了
-        //是因为dispatch中涉及异步操作，导致变例结构的时候还没有完全，故通过定时器来实现（方法一）
-        // setTimeout(() => {
-        //     var mySwiper = new Swiper ('.swiper-container', {
-        //         // direction: 'vertical', // 垂直切换选项
-        //         loop: true, // 循环模式选项
-                
-        //         // 如果需要分页器
-        //         pagination: {
-        //             el: '.swiper-pagination',
-        //             clickable :true,
-        //         },
-                
-        //         // 如果需要前进后退按钮
-        //         navigation: {
-        //             nextEl: '.swiper-button-next',
-        //             prevEl: '.swiper-button-prev',
-        //         },
-                
-        //         // 如果需要滚动条
-        //         scrollbar: {
-        //             el: '.swiper-scrollbar',
-        //         },
-        //     })        
-        // }, 1000);
     },
-    watch: {
-        //通过监听bannerList属性的属性值的变化来执行回调函数
-        //存在情况：当这个函数执行只能保证bannerList数据已经有了，但是没办法保证v-for已经执行结束
-        //再结合$nextTick()解决更加好
-        bannerList: {
-            handler(newValue,oldValue){
-                this.$nextTick(() => {
-                    // new swiper 之前需要结构已经有了
-                    var mySwiper = new Swiper ('.swiper-container', {
-                        // direction: 'vertical', // 垂直切换选项
-                        loop: true, // 循环模式选项
-                        autoplay: true, //自动循环
-                        // 如果需要分页器
-                        pagination: {
-                            el: '.swiper-pagination',
-                            clickable :true,
-                        },
-                        
-                        // 如果需要前进后退按钮
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
-                        
-                        // 如果需要滚动条
-                        scrollbar: {
-                        el: '.swiper-scrollbar',
-                        },
-                    })  
-                })
-                     
-            }
-        }
-    }
 
 }
 </script>
