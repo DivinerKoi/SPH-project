@@ -11,10 +11,14 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x" >手机<i>×</i></li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <!-- 分类的面包屑 -->
+            <li class="with-x" v-if="searchParams.categoryName">{{this.searchParams.categoryName}}
+               <i @click="removeCategoryName">×</i>
+            </li>
+            <!-- 关键字的面包屑 -->
+            <li class="with-x" v-if="searchParams.keyword">{{this.searchParams.keyword}}
+               <i @click="removeKeyword">×</i>
+            </li>
           </ul>
         </div>
 
@@ -112,6 +116,7 @@
 <script>
   import SearchSelector from './SearchSelector/SearchSelector'
   import {mapGetters} from 'vuex'
+  import { eventBus } from '@/main'; 
   export default {
     name: 'Search',
     components: {
@@ -154,6 +159,26 @@
       //向服务器发起请求获取数据（根据参数不同返回不同的数据）
       getData(){
          this.$store.dispatch('getSearchList',this.searchParams)
+      },
+      //删除面包屑中分类的名字
+      removeCategoryName(){
+        this.searchParams.categoryName = ''
+        this.searchParams.category1Id = undefined //undefined能提高性能，因为这个参数就不会带给服务器
+        this.searchParams.category2Id = ''
+        this.searchParams.category3Id = ''
+        this.getData()
+        if(this.$route.params){
+          this.$router.push({name: 'search',params: this.$route.params})
+        }
+      },
+      removeKeyword(){
+        this.searchParams.keyword = undefined
+        this.getData()
+        // 通知兄弟组件删除关键字
+        this.$bus.$emit('clear')
+        if(this.$route.query){
+          this.$router.push({name:'search',query:this.$route.query})
+        }
       }
     },
     watch: {

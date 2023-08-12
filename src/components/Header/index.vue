@@ -49,6 +49,12 @@ export default {
       keyword: ''
     }
   },
+  mounted(){
+    //通过全局事件总线清除关键字，用于在search页面删除面包屑是搜索框的关键字能清除
+    this.$bus.$on('clear', () => {
+      this.keyword = '' // 清空数据
+    })
+  },
   methods: {
     goSeach(){
       if(this.$route.query){
