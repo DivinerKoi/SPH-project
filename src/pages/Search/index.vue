@@ -19,11 +19,20 @@
             <li class="with-x" v-if="searchParams.keyword">{{this.searchParams.keyword}}
                <i @click="removeKeyword">×</i>
             </li>
+            <!-- trademark品牌的面包屑 -->
+            <li class="with-x" v-if="searchParams.trademark">{{this.searchParams.trademark.split(':')[1]}}
+               <i @click="removeTrademark">×</i>
+            </li>
+             <!-- trademark品牌属性的面包屑 -->
+            <li class="with-x" v-for="(attrValue, index) in searchParams.props" :key="attrValue.split(':')[0]">{{attrValue.split(':')[1]}}
+               <i @click="removeAttrValue(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <!-- 自定义事件，子给父通讯 -->
+        <SearchSelector @trademarkInfo= 'trademarkInfo' @attrInfo='attrInfo'/>
 
         <!--details-->
         <div class="details clearfix">
@@ -115,8 +124,7 @@
 
 <script>
   import SearchSelector from './SearchSelector/SearchSelector'
-  import {mapGetters} from 'vuex'
-  import { eventBus } from '@/main'; 
+  import {mapGetters} from 'vuex' 
   export default {
     name: 'Search',
     components: {
@@ -171,6 +179,7 @@
           this.$router.push({name: 'search',params: this.$route.params})
         }
       },
+      //删除通过输入keyword的面包屑
       removeKeyword(){
         this.searchParams.keyword = undefined
         this.getData()
@@ -178,6 +187,32 @@
         this.$bus.$emit('clear')
         if(this.$route.query){
           this.$router.push({name:'search',query:this.$route.query})
+        }
+      },
+      //删除面包屑中通过点击品牌得到的
+      removeTrademark(){
+        this.searchParams.trademark = undefined
+        this.getData()
+      },
+      //删除面包屑中品牌属性的值
+      removeAttrValue(index){
+        //根据index来获得索引值，
+        this.searchParams.props.splice(index,1)
+        this.getData()
+      },
+      //自定义事件回调
+      trademarkInfo(trademark){
+       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+       this.getData()
+      },
+      //收集平台属性的回调函数（自定义事件）
+      attrInfo(attr,attrValue){
+        // 整理参数格式： ["属性ID:属性值:属性名"]
+        let props = `${attr.attrId}:${attrValue}:${attr.attrName}`
+        //对props进行去重，避免多次点击添加重复数据
+        if(this.searchParams.props.indexOf(props) === -1){  //判断props的数据是否存在searchParams.props中，不存在则为true
+          this.searchParams.props.push(props)
+          this.getData()
         }
       }
     },
