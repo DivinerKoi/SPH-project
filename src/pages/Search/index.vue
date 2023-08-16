@@ -39,11 +39,11 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active: isOne}" @click="changeOrder(1)">
+                  <a href="#">综合<i>{{isAsc?'⬆':'⬇'}}</i></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
+                <li :class="{active: isTwo}" @click="changeOrder(2)">
+                  <a href="#">销量<i>{{isAsc?'⬆':'⬇'}}</i></a>
                 </li>
                 <li>
                   <a href="#">新品</a>
@@ -74,7 +74,10 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a target="_blank" href="item.html" title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】">{{good.title}}</a>
+                    <a target="_blank" href="item.html" 
+                      title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】">
+                      {{good.title}}
+                    </a>
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
@@ -138,7 +141,7 @@
           category3Id: "",
           categoryName: "",//分类名字
           keyword: "",//关键字
-          order: "",//排序
+          order: "1:desc",//排序 默认根据综合来降序
           pageNo: 1,//分页器，代表当前是第几页
           pageSize: 10,//代表每一页展示的数据的数量
           props: [],//平台售卖属性操作带的参数
@@ -161,7 +164,18 @@
       this.getData()
     },
     computed: {
-      ...mapGetters(['attrsList','goodsList','trademarkList'])
+      ...mapGetters(['attrsList','goodsList','trademarkList']),
+      isOne(){
+        return this.searchParams.order.indexOf('1') != -1
+      },
+      isTwo(){
+        return this.searchParams.order.indexOf('2') != -1
+      },
+      //计算排序箭头方向
+      isAsc(){
+        return this.searchParams.order.indexOf('asc') != -1
+      }
+
     },
     methods: {
       //向服务器发起请求获取数据（根据参数不同返回不同的数据）
@@ -214,6 +228,21 @@
           this.searchParams.props.push(props)
           this.getData()
         }
+      },
+      changeOrder(flag){
+        //falg形参：是一个标记，代表用户点击的是综合（1）还是价格（2）
+        let originOrder = this.searchParams.order
+        let originFlag = this.searchParams.order.split(':')[0]
+        let originSort = this.searchParams.order.split(':')[1]
+        //准备一个新的order值
+        let newOrdre = ''
+        if(flag == originFlag){
+          newOrdre = `${flag}:${originSort == 'desc'?'asc':'desc'}`
+        }else{
+          newOrdre = `${flag}:${'desc'}`
+        }
+        this.searchParams.order = newOrdre
+        this.getData()
       }
     },
     watch: {
