@@ -191,6 +191,7 @@ export default {
 
                 .all-sort-list2 {
                     .item {
+                        cursor: pointer;
                         h3 {
                             line-height: 30px;
                             font-size: 14px;
@@ -225,10 +226,15 @@ export default {
                                     padding: 6px 0;
                                     overflow: hidden;
                                     zoom: 1;
+                                    a {
+                                        cursor: pointer;
+                                    }
 
                                     &.fore {
                                         border-top: 0;
                                     }
+
+                                   
 
                                     dt {
                                         float: left;

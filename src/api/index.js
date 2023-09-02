@@ -19,3 +19,9 @@ export const reqGetFloorList = () => {
 
 //获取Search模块的数据，当前这个接口给服务器传递一个默认参数params至少是一个空对象
 export const reqGetSearchInfo = (params)=>requests({url:'/list',method:"post",data:params})
+
+//获取商品详情 /api/item/{ skuId }
+export const reqGoodsInfo = (skuId) => requests({url: `/item/${skuId}`,method: 'get'})
+
+//将产品添加到购物车中（）
+export const reqAddOrUpdateCart = (skuId,skuNum) => requests({url: `/cart/addToCart/${skuId}/${skuNum}`,method:'post'})

@@ -1,4 +1,5 @@
 <template>
+<!-- 轮播图公用组件 -->
   <div class="swiper-container" id="floor1Swiper">
     <div class="swiper-wrapper">
       <div

@@ -65,7 +65,7 @@
               <li class="yui3-u-1-5" v-for="(good, index) in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"><img :src="good.defaultImg" /></a>
+                    <a target="_blank" @click="goToDetail(good.id)"><img :src="good.defaultImg" /></a>
                   </div>
                   <div class="price">
                     <strong>
@@ -120,7 +120,7 @@
           categoryName: "",//分类名字
           keyword: "",//关键字
           order: "1:desc",//排序 默认根据综合来降序
-          pageNo: 9,//分页器，代表当前是第几页
+          pageNo: 1,//分页器，代表当前是第几页
           pageSize: 10,//代表每一页展示的数据的数量
           props: [],//平台售卖属性操作带的参数
           trademark: ""//品牌
@@ -230,6 +230,9 @@
       getPageNo(pageNo){
         this.searchParams.pageNo = pageNo
         this.getData()
+      },
+      goToDetail(skuId){
+        this.$router.push({name: 'detail', params: {skuId}})
       }
     },
     watch: {
