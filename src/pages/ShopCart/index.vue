@@ -11,24 +11,27 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list">
+        <ul class="cart-list" v-for="(cart,index) in cartInfoList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list">
+            <input type="checkbox" name="chk_list" :checked="cart.isChecked">
           </li>
           <li class="cart-list-con2">
-            <img src="./images/goods1.png">
-            <div class="item-msg">米家（MIJIA） 小米小白智能摄像机增强版 1080p高清360度全景拍摄AI增强</div>
+            <img :src="cart.imgUrl">
+            <div class="item-msg">{{cart.skuName}}</div>
           </li>
           <li class="cart-list-con4">
-            <span class="price">399.00</span>
+            <span class="price">{{cart.cartPrice}}.00</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input autocomplete="off" type="text" value="1" minnum="1" class="itxt">
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a class="mins" @click="handler('miuse',-1,cart)">-</a>
+            <input autocomplete="off" type="text" class="itxt" minnum="1" 
+              :value="cart.skuNum" 
+              @change="handler('change',$event.target.value*1,cart)" 
+            >
+            <a href="javascript:void(0)" class="plus" @click="handler('add',1,cart)">+</a>
           </li>
           <li class="cart-list-con6">
-            <span class="sum">399</span>
+            <span class="sum">{{cart.skuPrice*cart.skuNum}}</span>
           </li>
           <li class="cart-list-con7">
             <a href="#none" class="sindelet">删除</a>
@@ -37,7 +40,7 @@
           </li>
         </ul>
 
-        <ul class="cart-list">
+        <!-- <ul class="cart-list">
           <li class="cart-list-con1">
             <input type="checkbox" name="chk_list" id="" value="">
           </li>
@@ -87,12 +90,12 @@
             <br>
             <a href="#none">移到收藏</a>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox">
+        <input class="chooseAll" type="checkbox" :checked="isAllCheck">
         <span>全选</span>
       </div>
       <div class="option">
@@ -105,7 +108,7 @@
           <span>0</span>件商品</div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">0</i>
+          <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
           <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -116,8 +119,74 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default {
     name: 'ShopCart',
+    mounted() {
+      this.getData()
+      // console.log(this.cartInfoList)
+      // console.log(this.cartInfoList.isChecked)
+    },
+    methods: {
+      getData(){
+        this.$store.dispatch('getCartList')
+      },
+      //修改产品的数量
+      //形参type: 区分三个元素，disNum：变化量（-1）（+1）（input最终个数） cart：利用ID确认哪一个商品
+      async handler(type,disNum,cart){
+        console.log(type,disNum,cart)
+        switch(type){
+          //点击+1按钮
+          case "add":
+            disNum = 1;
+            break;
+          case "miuse":
+            disNum = cart.skuNum > 1 ? -1: 0;
+            break;
+          case "change":
+            //用户输入是非数字或者负数，带给服务器的值是 0
+            if(isNaN(disNum) || disNum < 1){
+              disNum = 0
+            }else{
+              disNum = parseInt(disNum) - cart.skuNum
+            }
+            break;
+        }
+        // 派发actions
+        try {
+          await this.$store.dispatch('addOrUpdateShopCart',{skuId:cart.skuId,skuNum:disNum})
+          this.getData()
+        } catch (error) {
+          // error.message
+        }
+      }
+    },
+    computed: {
+      //购物车数据
+      ...mapGetters(['cartList']),
+      cartInfoList(){
+        return this.cartList.cartInfoList || []
+      },
+      //产品总价
+      totalPrice(){
+        // let sum = 0;
+        // this.cartInfoList.forEach(item => {
+        //   sum += item.skuNum*item.skuPrice
+        // });
+        // return sum
+
+        // 使用 reduce 方法计算总价格
+        const sum = this.cartInfoList.reduce((accumulator, item) => {
+          return accumulator + item.skuNum * item.skuPrice;
+        }, 0);
+        return sum;
+      },
+      //计算是否全选
+      isAllCheck(){
+        //Array.every()方法测试一个数组内的所有元素是否都能通过指定函数的测试。它返回一个布尔值。
+        return this.cartInfoList.every(item => item.isChecked == 1)
+      }
+    }
   }
 </script>
 

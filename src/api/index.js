@@ -25,3 +25,6 @@ export const reqGoodsInfo = (skuId) => requests({url: `/item/${skuId}`,method: '
 
 //将产品添加到购物车中（）
 export const reqAddOrUpdateCart = (skuId,skuNum) => requests({url: `/cart/addToCart/${skuId}/${skuNum}`,method:'post'})
+
+//获取购物车列表 /api/cart/cartList
+export const reqCartList = () => requests({url: '/cart/cartList', method:'get'})

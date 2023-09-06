@@ -4,7 +4,9 @@ import axios from 'axios'
 import nprogress from 'nprogress'
 //引入进度条样式
 import "nprogress/nprogress.css"
-//这是模拟的
+//引入store，用于给请求头带上uuid游客临时身份
+import store from '@/store'
+
 
 
 //1.利用axios对象的方法create，去创建一个axios实例
@@ -18,6 +20,9 @@ const requests = axios.create({
 //请求拦截器，在发请求之前，请求拦截器可以检测到，可以在发请求之前去做一些事情
 requests.interceptors.request.use((config) => {
     nprogress.start()
+    //请求头添加一个字段，（userTempId）该字段需要与后台对接
+    config.headers.userTempId = store.state.detail.uuid_token
+    // console.log(config)
     return config
 })
 

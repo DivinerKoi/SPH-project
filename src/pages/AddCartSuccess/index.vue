@@ -9,7 +9,8 @@
           </div>
           <div class="right-info">
             <p class="title">{{skuInfo.skuName}}</p>
-            <p class="attr">颜色：{{skuInfo.skuSaleAttrValueList[0].saleAttrValueName}} 数量：{{$route.query.skuNum}}</p>
+            <p class="attr" v-if="skuInfo.skuSaleAttrValueList.length > 0">颜色：{{skuInfo.skuSaleAttrValueList[0].saleAttrValueName}} </p>
+            <p class="attr">数量：{{$route.query.skuNum}}</p>
           </div>
         </div>
         <div class="right-gocart">
@@ -23,12 +24,11 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: 'AddCartSuccess',
     data() {
       return {
-        // skuInfo: null,
-        // skuNum: 1
       }
     },
     //计算通过在detail组件通过点击加入购物车把数据保存在sessionStorage里的数据
