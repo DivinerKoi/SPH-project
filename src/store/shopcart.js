@@ -1,5 +1,5 @@
 //购物车列表仓库
-import {reqCartList} from "@/api/index"
+import {reqCartList,reqDeleteCartById} from "@/api/index"
 const state = {
     cartList: []
 }
@@ -10,6 +10,15 @@ const actions = {
         // console.log(result)
         if(result.code == 200){
             context.commit('GETCARTLIST',result.data)
+        }
+    },
+    //删除购物车商品
+    async deleteCartListById(context,skuId){
+        let result = await reqDeleteCartById(skuId)
+        if(result.code == 200){
+            return 'ok!'
+        }else{
+            return Promise.reject(new Error("faile"))
         }
     }
 }

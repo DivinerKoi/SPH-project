@@ -14,7 +14,7 @@
         </div>
         <div class="typeList">
           <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <a @click="goCart">我的购物车</a>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -62,6 +62,9 @@ export default {
         location.query = this.$route.query
         this.$router.push(location)
       }
+    },
+    goCart(){
+      this.$router.push({name:'ShopCart'})
     }
   },
 };
@@ -95,6 +98,7 @@ export default {
 
       .typeList {
         float: right;
+        cursor: pointer;
 
         a {
           padding: 0 10px;
