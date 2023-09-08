@@ -13,7 +13,7 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="(cart,index) in cartInfoList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="cart.isChecked">
+            <input type="checkbox" name="chk_list" :checked="cart.isChecked" @change="updateChecked(cart,$event)">
           </li>
           <li class="cart-list-con2">
             <img :src="cart.imgUrl">
@@ -43,17 +43,20 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllCheck">
+        <input class="chooseAll" type="checkbox" 
+          :checked="isAllCheck && cartInfoList.length > 0" 
+          @change="updateAllCartChecked"
+        >
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllCheckedCart">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
       <div class="money-box">
         <div class="chosed">已选择
-          <span>0</span>件商品</div>
+          <span>{{checkedCartList}}</span>件商品</div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
           <i class="summoney">{{totalPrice}}</i>
@@ -77,6 +80,7 @@
       // console.log(this.cartInfoList.isChecked)
     },
     methods: {
+      //派发actions
       getData(){
         this.$store.dispatch('getCartList')
       },
@@ -119,6 +123,37 @@
           console.log('失败')
           alert(error.message)
         }
+      },
+      //修改商品选中状态
+      async updateChecked(cart){
+        let skuId = cart.skuId
+        let isChecked = cart.isChecked == 0 ? 1:0
+        try {
+        await this.$store.dispatch('updateCheckedById',{skuId,isChecked})
+        this.getData()
+        } catch (error) {
+          alert(error.message)
+        }
+      },
+      //删除所有选中的商品
+      async deleteAllCheckedCart(){
+        try {
+          await this.$store.dispatch('deleteAllCheckedCart')
+          this.getData()
+        } catch (error) {
+          alert(error.message)
+        }
+      },
+      //全选按钮
+      async updateAllCartChecked(event){
+        try {
+          let isChecked = event.target.checked? "1" : "0"
+          await this.$store.dispatch('updateAllCartChecked',isChecked)
+          this.getData()
+        } catch (error) {
+          alert(error.message)
+        }
+        
       }
     },   
     computed: {
@@ -145,6 +180,16 @@
       isAllCheck(){
         //Array.every()方法测试一个数组内的所有元素是否都能通过指定函数的测试。它返回一个布尔值。
         return this.cartInfoList.every(item => item.isChecked == 1)
+      },
+      //计算已选多少件商品
+      checkedCartList(){
+        let sum = 0
+        this.cartInfoList.forEach(item => {
+          if(item.isChecked == 1){
+            sum++
+          }
+        })
+        return sum
       }
     }
   }
