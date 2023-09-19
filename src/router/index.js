@@ -14,7 +14,7 @@ import AddCartSuccess from "@/pages/AddCartSuccess"
 import ShopCart from "@/pages/ShopCart" 
 
 //配置路由
-export default new VueRouter({
+let router = new VueRouter({
     //路由跳转默认滚动条在最顶上
     scrollBehavior (to, from, savedPosition) {
         // return 期望滚动到哪个的位置
@@ -72,3 +72,5 @@ export default new VueRouter({
  
     ]
 })
+
+export default router

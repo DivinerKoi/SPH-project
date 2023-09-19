@@ -1,5 +1,5 @@
 import {reqGoodsInfo,reqAddOrUpdateCart} from '@/api/index';
-import { getUUID } from '@/pages/utils/uuid_token';
+import { getUUID } from '@/utils/uuid_token';
 const state = {
     goodInfo : {},
     uuid_token: getUUID()

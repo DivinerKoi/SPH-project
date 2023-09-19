@@ -19,10 +19,19 @@ const requests = axios.create({
 })
 //请求拦截器，在发请求之前，请求拦截器可以检测到，可以在发请求之前去做一些事情
 requests.interceptors.request.use((config) => {
-    nprogress.start()
+    
     //请求头添加一个字段，（userTempId）该字段需要与后台对接
-    config.headers.userTempId = store.state.detail.uuid_token
+    if(store.state.detail.uuid_token){
+        config.headers.userTempId = store.state.detail.uuid_token
+    }
+    //需要携带token带给服务器
+    if(store.state.user.token){
+        config.headers.token = store.state.user.token
+    }
+
+
     // console.log(config)
+    nprogress.start() // 加载进度条
     return config
 })
 

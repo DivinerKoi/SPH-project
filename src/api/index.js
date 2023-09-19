@@ -44,5 +44,9 @@ export const reqUserRegister = (data) => requests({url: "/user/passport/register
 //登录接口  /api/user/passport/login
 export const reqUserLogin = (data) => requests({url: '/user/passport/login', data, method:'post'})
 
+//带着用户的token向服务器要用户信息 /api/user/passport/auth/getUserInfo
+export const reqUserInfo = () => requests({url: '/user/passport/auth/getUserInfo', method:'get'})
 
+//退出登录 /api/user/passport/logout
+export const reqLogout = () => requests({url: "/user/passport/logout",method: "get"})
 

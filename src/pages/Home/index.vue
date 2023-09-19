@@ -5,7 +5,7 @@
       <Recommend></Recommend>
       <Rank></Rank>
       <Like></Like>
-      <Floor v-for="(floor,index) in floorList" :key= floor.id :list = floor></Floor>
+      <Floor v-for="(floor) in floorList" :key= floor.id :list = floor></Floor>
       <Brand></Brand>
   </div>
 </template>
@@ -37,7 +37,10 @@ export default {
     })
   },
   mounted(){
+    //派发actions获取floor信息
     this.$store.dispatch('getFloorList')
+    //获取用户信息在首页展示
+    this.$store.dispatch('getUserInfo')
   }
 
 }
