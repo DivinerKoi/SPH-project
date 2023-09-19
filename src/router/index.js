@@ -1,6 +1,7 @@
 //配置路由
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
 //使用插件
 Vue.use(VueRouter)
 
@@ -71,6 +72,36 @@ let router = new VueRouter({
         },
  
     ]
+})
+router.beforeEach(async(to,from,next) => {
+    const token = store.state.user.token
+    const name = store.state.user.userInfo.name
+    if(token){
+        //通过判断是否有token表示用户是否登录，实现用户登录后不能去login页面，停留在/home
+        if(to.path == '/login'){
+            next('/home')
+        }else {
+            //登陆了，但是不是跳转到login
+            //判断跳转非login路由时，是否存在登录后的用户信息，因为之前只是在home页面派发actions
+            if(name){
+                next()
+            }else{
+                //如果没有用户信息，则派发actions
+                try {
+                    await store.dispatch('getUserInfo')
+                    next()
+                } catch (error) {
+                    //token过期，获取不到用户信息，重新登录
+                    //清除token
+                    // await store.dispatch('userLogout')
+                    // next('/login')
+                    console.log(error.message)
+                }
+            }
+        }
+    }else {
+        next()
+    }
 })
 
 export default router

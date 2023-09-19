@@ -39,7 +39,7 @@ export default {
   mounted(){
     //派发actions获取floor信息
     this.$store.dispatch('getFloorList')
-    //获取用户信息在首页展示
+    //获取登录后的用户信息在首页展示
     this.$store.dispatch('getUserInfo')
   }
 

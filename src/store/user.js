@@ -47,9 +47,12 @@ const actions = {
     //获取用户信息 (在Home组件派发)
     async getUserInfo(context){
         let result = await reqUserInfo()
-        console.log(result)
+        // console.log(result)
         if(result.code == 200){
             context.commit('GETUSERINFO',result.data)
+            return 'ok'
+        }else {
+            return Promise.reject(new Error('faile'))
         }
     },
     // 退出登录
