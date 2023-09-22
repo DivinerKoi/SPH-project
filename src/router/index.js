@@ -13,6 +13,9 @@ import Register from "@/pages/Register"
 import Detail from "@/pages/Detail"
 import AddCartSuccess from "@/pages/AddCartSuccess" 
 import ShopCart from "@/pages/ShopCart" 
+import Trade from "@/pages/Trade"
+import Pay from "@/pages/Pay"
+
 
 //配置路由
 let router = new VueRouter({
@@ -65,9 +68,21 @@ let router = new VueRouter({
             meta: {show: false}
         },
         {   //购物车
-            path: "/ShopCart/",
+            path: "/ShopCart",
             name: 'ShopCart',
             component: ShopCart,
+            meta: {show: false}
+        },
+        {   //结算
+            path: "/Trade",
+            name: 'Trade',
+            component: Trade,
+            meta: {show: false}
+        },
+        {   //支付
+            path: "/Pay",
+            name: 'Pay',
+            component: Pay,
             meta: {show: false}
         },
  
@@ -93,13 +108,14 @@ router.beforeEach(async(to,from,next) => {
                 } catch (error) {
                     //token过期，获取不到用户信息，重新登录
                     //清除token
-                    // await store.dispatch('userLogout')
-                    // next('/login')
-                    console.log(error.message)
+                    await store.dispatch('userLogout')
+                    next('/login')
+                    // console.log(error.message)
                 }
             }
         }
     }else {
+        // 用户未登录
         next()
     }
 })

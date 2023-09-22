@@ -16,6 +16,8 @@ Vue.component(Pagination.name,Pagination)
 import '@/mock/mockServer'
 //引入swiper样式（轮播图）
 import "swiper/css/swiper.css"
+//全局引入api,放到原型上
+import * as API from '@/api'
 
 Vue.config.productionTip = false
 Vue.use(router)
@@ -25,6 +27,7 @@ new Vue({
   //全局事件总线$bus配置
   beforeCreate(){
     Vue.prototype.$bus = this
+    Vue.prototype.$API = API
   },
   router,
   store

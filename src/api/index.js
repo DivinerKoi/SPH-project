@@ -50,3 +50,17 @@ export const reqUserInfo = () => requests({url: '/user/passport/auth/getUserInfo
 //退出登录 /api/user/passport/logout
 export const reqLogout = () => requests({url: "/user/passport/logout",method: "get"})
 
+//获取用户地址信息（结算页面收货地址） /api/user/userAddress/auth/findUserAddressList
+export const reqAddressInfo = () => requests({url: "/user/userAddress/auth/findUserAddressList",method: "get"})
+
+//获取商品清单（trade组件）/api/order/auth/trade
+export const reqOrderInfo = () => requests({url: "/order/auth/trade",method: "get"})
+
+// 提交订单 /api/order/auth/submitOrder?tradeNo={tradeNo}
+export const reqSubmitOrder = (tradeNo,data) => requests({url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,data,method:'post'})
+
+// 获取订单支付信息 /api/payment/weixin/createNative/{orderId} Pay组件展示
+export const reqPayInfo = (orderId) => requests({url: `/payment/weixin/createNative/${orderId}`,method:'get'})
+
+
+

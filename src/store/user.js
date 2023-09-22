@@ -34,7 +34,7 @@ const actions = {
         let result = await reqUserLogin(data)
         //服务器下发token，用户唯一标识
         //将来带着token找服务器要用户信息
-        console.log(result)
+        // console.log(result)
         if(result.code == 200){
             context.commit('USERLOGIN',result.data.token)
             //存储token
