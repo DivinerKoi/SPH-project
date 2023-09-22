@@ -65,7 +65,8 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <!-- <router-link class="btn" to="/paysuccess">立即支付</router-link> -->
+          <a class="btn" @click="open">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -112,6 +113,17 @@
             console.error(error);
             // 处理可能的错误
           });
+      },
+      //立即支付弹出框
+      open() {
+        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+          dangerouslyUseHTMLString: true,
+          center: true,//文本居中
+          showClose: false, //是否显示右上角关闭按钮
+          showCancelButton: true, //是否显示取消按钮
+          cancelButtonText: '支付遇见问题',
+          confirmButtonText: '已支付成功'
+        });
       }
     },
   }
