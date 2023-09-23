@@ -150,8 +150,16 @@ router.beforeEach(async(to,from,next) => {
             }
         }
     }else {
-        // 用户未登录
-        next()
+        // 用户未登录: 不能去交易相关、不能去支付相关(pay||paysuccess)、不能去个人中心
+        let toPath = to.path
+        if(toPath.indexOf('/Trade') != -1 || toPath.indexOf('/pay') != -1 || toPath.indexOf('/center') != -1){
+            // 在未登录时用户点击需要登录才能进去的页面，
+            // 把这个信息存储在地址栏中，用户登录后直接去想要去的路由 结合login组件的userLogin()方法
+            next('/login?redirect='+toPath)
+        }else {
+            next()
+        }
+        
     }
 })
 

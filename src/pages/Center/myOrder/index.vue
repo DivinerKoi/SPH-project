@@ -213,7 +213,32 @@
 
 <script>
 export default {
-  name: "muOrder"
+  name: "myOrder",
+  data() {
+      return {
+          page: 1, //页码
+          limit: 3, //每页显示数量
+          myOrder: {}
+      }
+  },
+  mounted() {
+      this.getData()
+  },
+  methods: {
+      getData(){
+          let self = this
+          let {page,limit} = this
+          this.$API.reqMyOrderList(page,limit)
+            .then((res) => {
+                console.log(res)
+                if(res.code == 200){
+                    self.myOrder = res.data
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+      }
+  },
 };
 </script>
 

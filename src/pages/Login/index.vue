@@ -79,7 +79,9 @@
         try {
           const {phone,password} = this;
           (phone&&password) && await this.$store.dispatch('userLogin',{phone,password})
-          this.$router.push('/home')
+      // 优化：登录的路由组件是否包含query参数，有跳到query参数指定路由，没有跳到home 结合router->index.js中路由守卫
+          let toPath = this.$route.query.redirect || '/home'
+          this.$router.push(toPath)
         } catch (error) {
           alert(error.message)
         }
