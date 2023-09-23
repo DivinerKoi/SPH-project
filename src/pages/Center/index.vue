@@ -7,10 +7,12 @@
           <dl>
             <dt><i>·</i> 订单中心</dt>
             <dd>
-              我的订单
+              <!-- 我的订单 -->
+              <router-link to="/Center/myOrder">我的订单</router-link>
             </dd>
             <dd>
-              团购订单
+              <!-- 团购订单 -->
+              <router-link to="/Center/groupOrder">团购订单</router-link>
             </dd>
             <dd>本地生活订单 </dd>
             <dd>我的预售</dd>
@@ -54,22 +56,23 @@
           </dl>
         </div>
         <!-- 右侧内容 -->
-        <groupOrder></groupOrder>
-        <myOrder></myOrder>
+        <!-- <groupOrder></groupOrder>
+        <myOrder></myOrder> -->
+        <router-view></router-view>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import myOrder from "./myOrder"
-import groupOrder from "./groupOrder"
+// import myOrder from "./myOrder"
+// import groupOrder from "./groupOrder"
   export default {
     name: '',
-    components: {
-      myOrder,
-      groupOrder
-    }
+    // components: {
+    //   myOrder,
+    //   groupOrder
+    // }
   }
 </script>
 

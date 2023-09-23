@@ -17,6 +17,10 @@ import Trade from "@/pages/Trade"
 import Pay from "@/pages/Pay"
 import PaySuccess from "@/pages/PaySuccess"
 import Center from "@/pages/Center"
+import myOrder from "@/pages/Center/myOrder"
+import groupOrder from "@/pages/Center/groupOrder"
+
+
 
 
 //配置路由
@@ -97,7 +101,24 @@ let router = new VueRouter({
             path: "/Center",
             name: 'Center',
             component: Center,
-            meta: {show: false}
+            meta: {show: false},
+            //二级路由
+            children: [
+                {
+                    path: "/Center",
+                    redirect: "/Center/myOrder"
+                },
+                {
+                    path: "myOrder",
+                    name: 'myOrder',
+                    component: myOrder,
+                },
+                {
+                    path: "groupOrder",
+                    name: 'groupOrder',
+                    component: groupOrder,
+                }
+            ]
         },
  
     ]
