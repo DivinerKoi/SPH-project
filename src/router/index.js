@@ -15,6 +15,8 @@ import AddCartSuccess from "@/pages/AddCartSuccess"
 import ShopCart from "@/pages/ShopCart" 
 import Trade from "@/pages/Trade"
 import Pay from "@/pages/Pay"
+import PaySuccess from "@/pages/PaySuccess"
+import Center from "@/pages/Center"
 
 
 //配置路由
@@ -83,6 +85,18 @@ let router = new VueRouter({
             path: "/Pay",
             name: 'Pay',
             component: Pay,
+            meta: {show: false}
+        },
+        {   //支付成功
+            path: "/PaySuccess",
+            name: 'PaySuccess',
+            component: PaySuccess,
+            meta: {show: false}
+        },
+        {   //支付成功后查看订单页
+            path: "/Center",
+            name: 'Center',
+            component: Center,
             meta: {show: false}
         },
  

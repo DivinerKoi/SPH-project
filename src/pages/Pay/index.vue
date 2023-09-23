@@ -83,11 +83,15 @@
 </template>
 
 <script>
+  //引入qrCode用于生成二维码
+  import QRCode from 'qrcode'
   export default {
     name: 'Pay',
     data() {
       return {
-        payInfo: {}
+        payInfo: {},
+        timer: null, //定时器
+        code: '' //支付成功的code
       }
     },
     mounted() {
@@ -103,7 +107,7 @@
       getPayInfo(){
         let self = this
         // let result = this.$API.reqPayInfo(this.orderId)
-         this.$API.reqPayInfo(this.orderId)
+        this.$API.reqPayInfo(this.orderId)
           .then(result => {
             // 在这里处理获取到的支付信息
             console.log(result);
@@ -114,16 +118,52 @@
             // 处理可能的错误
           });
       },
-      //立即支付弹出框
-      open() {
-        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+      //点击立即支付的弹出框
+      async open() {
+        //从后台获取的codeUrl转化成二维码
+        let url = await QRCode.toDataURL(this.payInfo.codeUrl)
+        this.$alert(`<img src=${url} />`, '请使用微信支付', {
           dangerouslyUseHTMLString: true,
           center: true,//文本居中
           showClose: false, //是否显示右上角关闭按钮
           showCancelButton: true, //是否显示取消按钮
           cancelButtonText: '支付遇见问题',
-          confirmButtonText: '已支付成功'
+          confirmButtonText: '已支付成功',
+          // 关闭弹出框的配置 MessageBox 关闭前的回调，会暂停实例的关闭
+          beforeClose: (action,instance,done) => {
+            if(action == 'cancel'){
+              alert('请联系管理员')
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+            }else {
+              // if(this.code == 200){
+                clearInterval(this.timer)
+                this.timer = null
+                done()
+                this.$router.push('/PaySuccess')
+              // }
+            }
+          }
         });
+        //支付成功或者失败？支付成功，路由跳转，失败，提示信息
+        if(!this.timer){
+          this.timer = setInterval(async () => {
+            // 获取用户支付状态
+            let result = await this.$API.reqPayStatus(this.orderId)
+            if(result.code == 200){
+              //第一步：关闭定时器
+              clearInterval(this.timer)
+              this.timer = null
+              //保存支付成功返回的值code：
+              this.code = result.code
+              // 关闭弹出框
+              this.$msgbox.close()
+              // 路由跳转
+              this.$router.push('/PaySuccess')
+            }
+          }, 1000);
+        }
       }
     },
   }
