@@ -83,13 +83,29 @@ let router = new VueRouter({
             path: "/Trade",
             name: 'Trade',
             component: Trade,
-            meta: {show: false}
+            meta: {show: false},
+            beforeEnter: (to, from, next) => {
+                // 正常去结算页面(/Trade)是从 /ShopCart路由进去的 ，如果不是就next(false)
+                if(from.path == '/ShopCart'){
+                    next()
+                }else {
+                    next(false)
+                }
+            }
         },
         {   //支付
             path: "/Pay",
             name: 'Pay',
             component: Pay,
-            meta: {show: false}
+            meta: {show: false},
+            beforeEnter: (to, from, next) => {
+                // 
+                if(from.path == '/Trade'){
+                    next()
+                }else {
+                    next(false)
+                }
+            }
         },
         {   //支付成功
             path: "/PaySuccess",
