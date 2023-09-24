@@ -65,7 +65,7 @@
               <li class="yui3-u-1-5" v-for="(good, index) in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a target="_blank" @click="goToDetail(good.id)"><img :src="good.defaultImg" /></a>
+                    <a target="_blank" @click="goToDetail(good.id)"><img v-lazy="good.defaultImg" /></a>
                   </div>
                   <div class="price">
                     <strong>

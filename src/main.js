@@ -19,6 +19,16 @@ Vue.component(Button.name,Button)
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 
+import loadimage from '@/assets/loading.gif'
+//引入插件
+import VueLazyload from 'vue-lazyload'
+// 使用插件
+Vue.use(VueLazyload,{
+  //懒加载默认的图片
+  loading: loadimage
+})
+
+
 //运行Mockserver.js ===mock数据
 import '@/mock/mockServer'
 //引入swiper样式（轮播图）
