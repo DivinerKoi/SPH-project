@@ -19,6 +19,13 @@ Vue.component(Button.name,Button)
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 
+//运行Mockserver.js ===mock数据
+import '@/mock/mockServer'
+//引入swiper样式（轮播图）
+import "swiper/css/swiper.css"
+//全局引入api,放到原型上
+import * as API from '@/api'
+
 import loadimage from '@/assets/loading.gif'
 //引入插件
 import VueLazyload from 'vue-lazyload'
@@ -27,14 +34,9 @@ Vue.use(VueLazyload,{
   //懒加载默认的图片
   loading: loadimage
 })
+ //引入表单验证的插件
+ import "@/plugins/validate"
 
-
-//运行Mockserver.js ===mock数据
-import '@/mock/mockServer'
-//引入swiper样式（轮播图）
-import "swiper/css/swiper.css"
-//全局引入api,放到原型上
-import * as API from '@/api'
 
 Vue.config.productionTip = false
 Vue.use(router)

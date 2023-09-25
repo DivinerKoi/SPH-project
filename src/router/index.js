@@ -38,7 +38,9 @@ let router = new VueRouter({
         },
         {
             path: "/home",
-            component: Home,
+            // component: Home,
+            //路由懒加载的写法
+            component: () => import('@/pages/Home') ,
             meta: {show: true}
         },
         {
